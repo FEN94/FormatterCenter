@@ -1,6 +1,5 @@
-const electron = require('electron')
 const { ipcRenderer } = require('electron')
-const BrowserWindow = electron.remote.BrowserWindow
+
 
 populateList()
 const openBtn = document.getElementById('open-button')
