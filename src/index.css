@@ -1,3 +1,10 @@
+th, td {
+    text-align: center;
+}
 .center {
     text-align: center;
 }
+
+/* #createDiv {
+    text-align: right;
+} */

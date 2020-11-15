@@ -17,22 +17,22 @@ function createWindow () {
 
 app.whenReady().then(createWindow)
 
-ipcMain.on('pc-empty', function(event, arg) {
+ipcMain.on('empty', function(event, arg) {
   dialog.showMessageBox({
     type: "warning",
     title: "Empty Field",
-    message: "Product Code field cannot be empty"
+    message: arg
   })
 })
 
-ipcMain.on('printingType-empty', function(event, arg) {
+ipcMain.on('success', function(event, arg) {
   dialog.showMessageBox({
-    type: "warning",
-    title: "Empty Field",
-    message: "Select printing type"
+    type: "info",
+    title: "success",
+    message: arg
   })
 })
 
-ipcMain.on('pc-not-found', function(event, arg) {
-  dialog.showErrorBox("Not Found", "Product Code not found")
+ipcMain.on('error', function(event, arg) {
+  dialog.showErrorBox("Not Found", arg)
 })

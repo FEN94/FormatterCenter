@@ -123,6 +123,27 @@ function openPcWindow (productCode) {
     }
 }
 
+function createFolder(printingType, program, subProgram, productCode) {
+    var dir = "C:\\GMC"+"\\"+printingType+"\\"+program
+    if (!fs.existsSync(dir)) {
+        fs.mkdir(dir, err => {})
+    }
+    if (subProgram != "None") {
+        dir += "\\"+subProgram
+    }
+    if (!fs.existsSync(dir)) {
+        fs.mkdir(dir, err => {})
+    }
+    dir += "\\"+productCode
+    fs.mkdir(dir, err => {
+        if (err) {
+            console.log(err)
+        } else {
+
+        }
+    })
+}
+
 // WRITE FILE
 // var data = JSON.stringify(pcList)
 // fs.writeFile("./pclist.json", data, function (err) {

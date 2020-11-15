@@ -6,24 +6,25 @@ const openBtn = document.getElementById('openBtn')
 const addBtn = document.getElementById('addBtn')
 const checkBox = document.getElementById('checkBox')
 const ptDropDown = document.getElementById('printingType')
+const createBtn = document.getElementById('createBtn')
 
 openBtn.addEventListener('click', () => {
     var productCode = document.getElementById('pcInput').value
     if (productCode != "") {
         if (!openPcWindow(productCode.trim())) {
-            ipcRenderer.send('pc-not-found', true)
+            ipcRenderer.send('error', "Product Code not found")
         }
     } else {
-        ipcRenderer.send('pc-empty', true)
+        ipcRenderer.send('empty', "Product code field empty")
     }
 })
 
 addBtn.addEventListener('click', () => {
     var productCode = document.getElementById('newPc').value
     if (productCode == "") {
-        ipcRenderer.send('pc-empty', true)
+        ipcRenderer.send('empty', "Product code field cannot be empty")
     } else if (ptDropDown.value == "") {
-        ipcRenderer.send('printingType-empty', true)
+        ipcRenderer.send('empty', "Select printing type")
     } else {
         var newPcTable = document.getElementById('newPcTable')
         //var thead = newPcTable.children[0]
@@ -44,10 +45,10 @@ addBtn.addEventListener('click', () => {
         var tdSubProgram = document.createElement('td')
         var tdPrintingType = document.createElement('td')
         tdProductCode.innerHTML = productCode.toUpperCase().trim()
-        tdProgram.innerHTML = productCode.substring(0,2).trim()
+        tdProgram.innerHTML = productCode.substring(0,2).toUpperCase().trim()
         tdPrintingType.innerHTML = ptDropDown.value
         if (checkBox.checked) {
-            tdSubProgram.innerHTML = productCode.substring(2,4).trim()
+            tdSubProgram.innerHTML = productCode.substring(2,4).toUpperCase().trim()
         } else {
             tdSubProgram.innerHTML = "None"
         }
@@ -57,5 +58,28 @@ addBtn.addEventListener('click', () => {
         row.appendChild(tdPrintingType)
         tbody.appendChild(row)
         //console.log(tbody)
+    }
+})
+
+createBtn.addEventListener('click', () => {
+    var newPcTable = document.getElementById('newPcTable')
+    var tbody = newPcTable.children[1]
+    if (tbody.children.length == 0) {
+        ipcRenderer.send('empty', "Table is empty")
+    } else {
+        var rows = tbody.children
+        console.log(rows)
+        for (let i = 0; i < rows.length; i++) {
+            data = rows[i].children
+            var productCode = data[0].innerHTML
+            var program = data[1].innerHTML
+            var subProgram = data[2].innerHTML
+            var printingType = data[3].innerHTML
+            createFolder(printingType, program, subProgram, productCode)
+        }
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.lastChild)
+        }
+        ipcRenderer.send('success', "Folder(s) created successfully")
     }
 })
