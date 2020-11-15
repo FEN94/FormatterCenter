@@ -21,18 +21,28 @@
       <div class="center">
         <label for="">Product Code:</label>
         <input type="text" id="newPc">
-        <select name="" id="">
+        <label for="">Printing type:</label>
+        <select name="" id="printingType">
           <option value="">--Select--</option>
           <option value="Arc_Thermal">Arc Thermal</option>
           <option value="Digital">Digital</option>
           <option value="Offset">Offset</option>
           <option value="PFL">PFL</option>
         </select>
+        <label for="">Sub Program</label>
+        <input type="checkbox" id="checkBox">
         <button id="addBtn">Add</button>
       </div>
       <div>
         <table id="newPcTable">
-          <thead></thead>
+          <thead>
+            <tr>
+              <th>Product Code</th>
+              <th>Program</th>
+              <th>Sub Program</th>
+              <th>Printing Type</th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>

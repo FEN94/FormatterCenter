@@ -25,6 +25,14 @@ ipcMain.on('pc-empty', function(event, arg) {
   })
 })
 
+ipcMain.on('printingType-empty', function(event, arg) {
+  dialog.showMessageBox({
+    type: "warning",
+    title: "Empty Field",
+    message: "Select printing type"
+  })
+})
+
 ipcMain.on('pc-not-found', function(event, arg) {
   dialog.showErrorBox("Not Found", "Product Code not found")
 })
