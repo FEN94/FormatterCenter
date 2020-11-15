@@ -5,6 +5,10 @@ th, td {
     text-align: center;
 }
 
+#newPcTable {
+    margin: auto;
+}
+
 /* #createDiv {
     text-align: right;
 } */
