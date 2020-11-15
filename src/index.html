@@ -5,45 +5,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formatter Center</title>
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+  <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
-  <nav>
-    <div class="nav-wrapper blue-grey darken-3">
-      <a href="#" class="brand-logo left">SML</a>
-      <ul id="nav-mobile" class="right">
-        <li><a href="">Home</a></li>
-        <li><a href="">New Product Code</a></li>
-        <li><a href="">Settings</a></li>
-      </ul>
-    </div>
-  </nav>
-  <div class="container">
-    <div class="row center">
-      <div class="col s12">
-        <img src="../assets/images/sml_logo.png" alt="">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col s6 offset-s3">
-        <label for="">Product Code</label>
-        <input id="pcInput" placeholder="i.e US29MNV001" type="text">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col s1 offset-s5">
-        <a id="open-button" class="waves-effect waves-light btn-large">Open</a>
-      </div>
-    </div>
+  <div class="center"><img src="../assets/images/sml_logo.png" alt=""></div>
+  <div class="center">
+    <label for="">Product Code:</label>
+    <input type="text" id="pcInput" placeholder="i.e. JRJRIPV001">
+    <button id="openBtn">Open</button>
   </div>
-  <script defer src="mainController.js"></script>
-  <script defer src="index.js"></script>
+  <div>
+    <fieldset>
+      <legend>New Product Code</legend>
+      <div class="center">
+        <label for="">Product Code:</label>
+        <input type="text" id="newPc">
+        <select name="" id="">
+          <option value="">--Select--</option>
+          <option value="Arc_Thermal">Arc Thermal</option>
+          <option value="Digital">Digital</option>
+          <option value="Offset">Offset</option>
+          <option value="PFL">PFL</option>
+        </select>
+        <button id="addBtn">Add</button>
+      </div>
+      <div>
+        <table id="newPcTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </fieldset>
+  </div>
+  <script src="./mainController.js"></script>
+  <script src="./index.js"></script>
 </body>
 
 </html>

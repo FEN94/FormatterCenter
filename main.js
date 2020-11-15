@@ -21,7 +21,7 @@ ipcMain.on('pc-empty', function(event, arg) {
   dialog.showMessageBox({
     type: "warning",
     title: "Empty Field",
-    message: "Product Code field can not be empty"
+    message: "Product Code field cannot be empty"
   })
 })
 
