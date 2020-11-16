@@ -1,12 +1,21 @@
 th, td {
     text-align: center;
+    border: 1px solid black;
 }
 .center {
     text-align: center;
 }
 
-#newPcTable {
+#newPc-info {
+    width: 700px;
     margin: auto;
+}
+
+#newPcTable {
+    width: 55%;
+    margin: auto;
+    margin-top: 10px;
+    border: 1px solid black;
 }
 
 /* #createDiv {
