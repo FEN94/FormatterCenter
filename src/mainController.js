@@ -1,5 +1,6 @@
 const fs = require('fs')
 const openExplorer = require('open-file-explorer')
+const readXlsxFile = require('read-excel-file/node');
 
 // START TEST DATA ////
 // var pcList = [
@@ -143,6 +144,13 @@ function createFolder(printingType, program, subProgram, productCode) {
         }
     })
 }
+
+// File path.
+readXlsxFile('D:\\ElectronProjects\\FormatterCenter\\pc_list.xlsx').then((rows) => {
+    // `rows` is an array of rows
+    // each row being an array of cells.
+    console.log(rows)
+  })
 
 // WRITE FILE
 // var data = JSON.stringify(pcList)

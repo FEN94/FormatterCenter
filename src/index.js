@@ -7,6 +7,7 @@ const addBtn = document.getElementById('addBtn')
 const checkBox = document.getElementById('checkBox')
 const ptDropDown = document.getElementById('printingType')
 const createBtn = document.getElementById('createBtn')
+const chooseBtn = document.getElementById('select-file')
 
 openBtn.addEventListener('click', () => {
     var productCode = document.getElementById('pcInput').value
@@ -45,10 +46,10 @@ addBtn.addEventListener('click', () => {
         var tdSubProgram = document.createElement('td')
         var tdPrintingType = document.createElement('td')
         tdProductCode.innerHTML = productCode.toUpperCase().trim()
-        tdProgram.innerHTML = productCode.substring(0,2).toUpperCase().trim()
+        tdProgram.innerHTML = productCode.substring(0, 2).toUpperCase().trim()
         tdPrintingType.innerHTML = ptDropDown.value
         if (checkBox.checked) {
-            tdSubProgram.innerHTML = productCode.substring(2,4).toUpperCase().trim()
+            tdSubProgram.innerHTML = productCode.substring(2, 4).toUpperCase().trim()
         } else {
             tdSubProgram.innerHTML = "None"
         }
@@ -80,6 +81,18 @@ createBtn.addEventListener('click', () => {
         while (tbody.firstChild) {
             tbody.removeChild(tbody.lastChild)
         }
+        populateList()
         ipcRenderer.send('success', "Folder(s) created successfully")
     }
 })
+
+chooseBtn.addEventListener('click', () => {
+    ipcRenderer.send('open-file-dialog')
+})
+
+ipcRenderer.on('selected-file', function (event, path) {
+
+    //do what you want with the path/file selected, for example:
+    //console.log('Enter')
+    document.getElementById('file-path').innerHTML = `You selected: ${path}`
+});

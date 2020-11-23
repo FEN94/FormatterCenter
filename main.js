@@ -36,3 +36,15 @@ ipcMain.on('success', function(event, arg) {
 ipcMain.on('error', function(event, arg) {
   dialog.showErrorBox("Not Found", arg)
 })
+
+ipcMain.on('open-file-dialog', function(event) {
+  dialog.showOpenDialog({
+    properties: ['openFile']
+  }, function(files) {
+    //console.log('Enter')
+    if (files) {
+      //console.log('Enter')
+      event.sender.send('selected-file', files)
+    }
+  })
+})
