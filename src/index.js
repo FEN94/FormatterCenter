@@ -91,8 +91,10 @@ chooseBtn.addEventListener('click', () => {
 })
 
 ipcRenderer.on('selected-file', function (event, path) {
-
     //do what you want with the path/file selected, for example:
-    //console.log('Enter')
-    document.getElementById('file-path').innerHTML = `You selected: ${path}`
+    var filePath = path['filePaths'][0]
+    console.log(path)
+    if (!path['canceled']) {
+        document.getElementById('file-path').innerHTML = filePath
+    }
 });

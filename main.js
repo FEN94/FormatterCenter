@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     width: 800,
@@ -17,7 +17,7 @@ function createWindow () {
 
 app.whenReady().then(createWindow)
 
-ipcMain.on('empty', function(event, arg) {
+ipcMain.on('empty', function (event, arg) {
   dialog.showMessageBox({
     type: "warning",
     title: "Empty Field",
@@ -25,7 +25,7 @@ ipcMain.on('empty', function(event, arg) {
   })
 })
 
-ipcMain.on('success', function(event, arg) {
+ipcMain.on('success', function (event, arg) {
   dialog.showMessageBox({
     type: "info",
     title: "success",
@@ -33,17 +33,16 @@ ipcMain.on('success', function(event, arg) {
   })
 })
 
-ipcMain.on('error', function(event, arg) {
+ipcMain.on('error', function (event, arg) {
   dialog.showErrorBox("Not Found", arg)
 })
 
-ipcMain.on('open-file-dialog', function(event) {
+ipcMain.on('open-file-dialog', function (event) {
   dialog.showOpenDialog({
+    filters: [{ name: 'Excel', extensions: ['xlsx', 'xls'] }],
     properties: ['openFile']
-  }, function(files) {
-    //console.log('Enter')
+  }).then(function (files) {
     if (files) {
-      //console.log('Enter')
       event.sender.send('selected-file', files)
     }
   })
