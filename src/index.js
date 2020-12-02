@@ -1,4 +1,6 @@
 const { ipcRenderer } = require('electron')
+const { read } = require('fs')
+const readXlsxFile = require('read-excel-file/node');
 
 
 populateList()
@@ -8,6 +10,9 @@ const checkBox = document.getElementById('checkBox')
 const ptDropDown = document.getElementById('printingType')
 const createBtn = document.getElementById('createBtn')
 const chooseBtn = document.getElementById('select-file')
+const importBtn = document.getElementById('import')
+
+var pcList = []
 
 openBtn.addEventListener('click', () => {
     var productCode = document.getElementById('pcInput').value
@@ -22,43 +27,34 @@ openBtn.addEventListener('click', () => {
 
 addBtn.addEventListener('click', () => {
     var productCode = document.getElementById('newPc').value
+    var subProgram = checkBox.checked
+    var printingType = ptDropDown.value
     if (productCode == "") {
         ipcRenderer.send('empty', "Product code field cannot be empty")
     } else if (ptDropDown.value == "") {
         ipcRenderer.send('empty', "Select printing type")
     } else {
-        var newPcTable = document.getElementById('newPcTable')
-        //var thead = newPcTable.children[0]
-        var tbody = newPcTable.children[1]
-        // if (thead.children.length == 0) {
-        //     var headers = ["Product Code", "Program", "Sub Program", "Printing Type"]
-        //     var row = document.createElement('tr')
-        //     for (let i = 0; i < headers.length; i++) {
-        //         var cell = document.createElement('th')
-        //         cell.innerHTML = headers[i]
-        //         row.appendChild(cell)
-        //     }
-        //     thead.appendChild(row)
+        fillTable(productCode, subProgram, printingType)
+        // var newPcTable = document.getElementById('newPcTable')
+        // var tbody = newPcTable.children[1]
+        // var row = document.createElement('tr')
+        // var tdProductCode = document.createElement('td')
+        // var tdProgram = document.createElement('td')
+        // var tdSubProgram = document.createElement('td')
+        // var tdPrintingType = document.createElement('td')
+        // tdProductCode.innerHTML = productCode.toUpperCase().trim()
+        // tdProgram.innerHTML = productCode.substring(0, 2).toUpperCase().trim()
+        // tdPrintingType.innerHTML = printingType
+        // if (subProgram) {
+        //     tdSubProgram.innerHTML = productCode.substring(2, 4).toUpperCase().trim()
+        // } else {
+        //     tdSubProgram.innerHTML = "None"
         // }
-        var row = document.createElement('tr')
-        var tdProductCode = document.createElement('td')
-        var tdProgram = document.createElement('td')
-        var tdSubProgram = document.createElement('td')
-        var tdPrintingType = document.createElement('td')
-        tdProductCode.innerHTML = productCode.toUpperCase().trim()
-        tdProgram.innerHTML = productCode.substring(0, 2).toUpperCase().trim()
-        tdPrintingType.innerHTML = ptDropDown.value
-        if (checkBox.checked) {
-            tdSubProgram.innerHTML = productCode.substring(2, 4).toUpperCase().trim()
-        } else {
-            tdSubProgram.innerHTML = "None"
-        }
-        row.appendChild(tdProductCode)
-        row.appendChild(tdProgram)
-        row.appendChild(tdSubProgram)
-        row.appendChild(tdPrintingType)
-        tbody.appendChild(row)
-        //console.log(tbody)
+        // row.appendChild(tdProductCode)
+        // row.appendChild(tdProgram)
+        // row.appendChild(tdSubProgram)
+        // row.appendChild(tdPrintingType)
+        // tbody.appendChild(row)
     }
 })
 
@@ -93,8 +89,48 @@ chooseBtn.addEventListener('click', () => {
 ipcRenderer.on('selected-file', function (event, path) {
     //do what you want with the path/file selected, for example:
     var filePath = path['filePaths'][0]
-    console.log(path)
     if (!path['canceled']) {
         document.getElementById('file-path').innerHTML = filePath
     }
-});
+    readXlsxFile(filePath).then((rows) => {
+        // `rows` is an array of rows
+        // each row being an array of cells.
+        //console.log(rows)
+        pcList = rows
+    })
+})
+
+importBtn.addEventListener('click', () => {
+    var subProgram
+    for (let i = 1; i < pcList.length; i++) {
+        if (pcList[i][2] == "Yes") {
+            subProgram = true
+        } else {
+            subProgram = false
+        }
+        fillTable(pcList[i][0], subProgram, pcList[i][1])
+    }
+})
+
+function fillTable(productCode, subProgram, printingType) {
+    var newPcTable = document.getElementById('newPcTable')
+    var tbody = newPcTable.children[1]
+    var row = document.createElement('tr')
+    var tdProductCode = document.createElement('td')
+    var tdProgram = document.createElement('td')
+    var tdSubProgram = document.createElement('td')
+    var tdPrintingType = document.createElement('td')
+    tdProductCode.innerHTML = productCode.toUpperCase().trim()
+    tdProgram.innerHTML = productCode.substring(0, 2).toUpperCase().trim()
+    tdPrintingType.innerHTML = printingType
+    if (subProgram) {
+        tdSubProgram.innerHTML = productCode.substring(2, 4).toUpperCase().trim()
+    } else {
+        tdSubProgram.innerHTML = "None"
+    }
+    row.appendChild(tdProductCode)
+    row.appendChild(tdProgram)
+    row.appendChild(tdSubProgram)
+    row.appendChild(tdPrintingType)
+    tbody.appendChild(row)
+}

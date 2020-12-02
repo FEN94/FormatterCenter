@@ -1,6 +1,5 @@
 const fs = require('fs')
 const openExplorer = require('open-file-explorer')
-const readXlsxFile = require('read-excel-file/node');
 
 // START TEST DATA ////
 // var pcList = [
@@ -98,7 +97,7 @@ function addProductCode(productCode, program, subProgram, printingType) {
     pcList.push(newPC)
 }
 
-function openPcWindow (productCode) {
+function openPcWindow(productCode) {
     var result = inList(productCode) // Search for product code on the list
     if (result[0]) {
         pcList.splice(result[2], 0, result[1]) //Add product code obj back to the list
@@ -106,9 +105,9 @@ function openPcWindow (productCode) {
         var printingType = pc["printingType"][0], program = pc["program"], subProgram = pc["subProgram"]
         var path = ""
         if (subProgram == "") {
-            path = "C:\\GMC\\"+printingType+"\\"+program+"\\"+productCode
+            path = "C:\\GMC\\" + printingType + "\\" + program + "\\" + productCode
         } else {
-            path = "C:\\GMC\\"+printingType+"\\"+program+"\\"+subProgram+"\\"+productCode
+            path = "C:\\GMC\\" + printingType + "\\" + program + "\\" + subProgram + "\\" + productCode
         }
         //Open product code folder
         openExplorer(path, function (err) {
@@ -125,17 +124,17 @@ function openPcWindow (productCode) {
 }
 
 function createFolder(printingType, program, subProgram, productCode) {
-    var dir = "C:\\GMC"+"\\"+printingType+"\\"+program
+    var dir = "C:\\GMC" + "\\" + printingType + "\\" + program
     if (!fs.existsSync(dir)) {
-        fs.mkdir(dir, err => {})
+        fs.mkdir(dir, err => { })
     }
     if (subProgram != "None") {
-        dir += "\\"+subProgram
+        dir += "\\" + subProgram
     }
     if (!fs.existsSync(dir)) {
-        fs.mkdir(dir, err => {})
+        fs.mkdir(dir, err => { })
     }
-    dir += "\\"+productCode
+    dir += "\\" + productCode
     fs.mkdir(dir, err => {
         if (err) {
             console.log(err)
@@ -144,13 +143,6 @@ function createFolder(printingType, program, subProgram, productCode) {
         }
     })
 }
-
-// File path.
-readXlsxFile('D:\\ElectronProjects\\FormatterCenter\\pc_list.xlsx').then((rows) => {
-    // `rows` is an array of rows
-    // each row being an array of cells.
-    console.log(rows)
-  })
 
 // WRITE FILE
 // var data = JSON.stringify(pcList)
