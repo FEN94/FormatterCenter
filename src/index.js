@@ -12,7 +12,7 @@ const createBtn = document.getElementById('createBtn')
 const chooseBtn = document.getElementById('select-file')
 const importBtn = document.getElementById('import')
 
-var pcList = []
+var productCodes = [] //List of product codes imported from the excel file
 
 openBtn.addEventListener('click', () => {
     var productCode = document.getElementById('pcInput').value
@@ -96,19 +96,19 @@ ipcRenderer.on('selected-file', function (event, path) {
         // `rows` is an array of rows
         // each row being an array of cells.
         //console.log(rows)
-        pcList = rows
+        productCodes = rows
     })
 })
 
 importBtn.addEventListener('click', () => {
     var subProgram
-    for (let i = 1; i < pcList.length; i++) {
-        if (pcList[i][2] == "Yes") {
+    for (let i = 1; i < productCodes.length; i++) {
+        if (productCodes[i][2] == "Yes") {
             subProgram = true
         } else {
             subProgram = false
         }
-        fillTable(pcList[i][0], subProgram, pcList[i][1])
+        fillTable(productCodes[i][0], subProgram, productCodes[i][1])
     }
 })
 
