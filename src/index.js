@@ -90,7 +90,7 @@ ipcRenderer.on('selected-file', function (event, path) {
     //do what you want with the path/file selected, for example:
     var filePath = path['filePaths'][0]
     if (!path['canceled']) {
-        document.getElementById('file-path').innerHTML = filePath
+        document.getElementById('file-path').value = filePath
     }
     readXlsxFile(filePath).then((rows) => {
         // `rows` is an array of rows
